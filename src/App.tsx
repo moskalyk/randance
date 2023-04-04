@@ -1,24 +1,26 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import useGyroscope from 'react-hook-gyroscope'
+
+const ComponentWithGyroscope = () => {
+  const gyroscope = useGyroscope()
+
+  return !gyroscope.error ? (
+    <ul>
+      <li>X: {gyroscope.x}</li>
+      <li>Y: {gyroscope.y}</li>
+      <li>Z: {gyroscope.z}</li>
+    </ul>
+  ) : (
+    <p>No gyroscope, sorry.</p>
+  )
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <ComponentWithGyroscope/>
     </div>
   );
 }
