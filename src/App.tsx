@@ -18,7 +18,7 @@ const ComponentWithGyroscope = () => {
     const alpha0 = event.alpha;
     const beta0 = event.beta;
     const gamma0 = event.gamma;
-    setBeta(alpha0)
+    setAlpha(alpha0)
     setBeta(beta0)
     setGamma(gamma0)
     // Do stuff...
