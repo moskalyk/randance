@@ -5,15 +5,15 @@ import useGyroscope from 'react-hook-gyroscope'
 
 const ComponentWithGyroscope = () => {
   const gyroscope = useGyroscope()
-
+  
   return !gyroscope.error ? (
     <ul>
-      <li>X: {gyroscope.x}</li>
-      <li>Y: {gyroscope.y}</li>
-      <li>Z: {gyroscope.z}</li>
+      <li className='prompt'>X: {gyroscope.x}</li>
+      <li className='prompt'>Y: {gyroscope.y}</li>
+      <li className='prompt'>Z: {gyroscope.z}</li>
     </ul>
   ) : (
-    <p>No gyroscope, sorry.</p>
+    <p className='prompt'>No gyroscope, sorry.</p>
   )
 }
 
