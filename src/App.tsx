@@ -1,7 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import useGyroscope from 'react-hook-gyroscope'
+
+interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
 
 const ComponentWithGyroscope = () => {
   const [alpha, setAlpha] = React.useState(0)
@@ -21,12 +24,37 @@ const ComponentWithGyroscope = () => {
     // Do stuff...
   }
 
+  function click() {
+    console.log(DeviceMotionEvent)
+
+    const requestPermission = (DeviceOrientationEvent as unknown as DeviceOrientationEventiOS).requestPermission;
+
+    if (typeof requestPermission  === 'function') {
+      // Handle iOS 13+ devices.
+      requestPermission()
+        .then((state: any) => {
+          if (state === 'granted') {
+            window.addEventListener('devicemotion', handleOrientation);
+          } else {
+            console.error('Request to access the orientation was rejected');
+          }
+        })
+        .catch(console.error);
+    } else {
+      // Handle regular non iOS 13+ devices.
+      window.addEventListener('devicemotion', handleOrientation);
+    }
+  }
+
   return (
+    <>
+    <button onClick={click}>approve</button>
     <ul>
       <li className='prompt'>X: {alpha}</li>
       <li className='prompt'>Y: {beta}</li>
       <li className='prompt'>Z: {gamma}</li>
     </ul>
+    </>
   )
 }
 
