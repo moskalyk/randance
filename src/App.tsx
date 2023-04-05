@@ -76,11 +76,11 @@ const ComponentWithGyroscope = () => {
     }
 
     // for testing
-    setInterval(()=> {
-      setAlpha(alpha* (1+Math.random()))
-      setBeta(beta* (1+Math.random()))
-      setGamma(gamma * (1+Math.random()))
-    },300)
+    // setInterval(()=> {
+    //   setAlpha(alpha* (1+Math.random()))
+    //   setBeta(beta* (1+Math.random()))
+    //   setGamma(gamma * (1+Math.random()))
+    // },300)
   }, [path, airdrop])
 
   function click() {
