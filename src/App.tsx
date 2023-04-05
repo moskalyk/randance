@@ -30,7 +30,7 @@ function checkGyroscopeReadings(readings: any, timeframe: number) {
   const movementRate = movementCount / (readings.length - 1);
   const timeframeInSeconds = timeframe / 1000; // convert to seconds
   const movementPerSecond = movementRate / timeframeInSeconds;
-  return movementPerSecond > 0.3; // adjust this as needed
+  return movementPerSecond > 0.1; // adjust this as needed
 }
 
 function getPercentageTrueFalse(arr: any) {
