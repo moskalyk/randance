@@ -5,23 +5,25 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
   requestPermission?: () => Promise<'granted' | 'denied'>;
 }
 
-function detectGreaterAngle(x: number, y: number, z: number) {
-  // Convert the x, y, and z values to radians
-  const radX = Math.atan2(x, Math.sqrt(y*y + z*z));
-  const radY = Math.atan2(y, Math.sqrt(x*x + z*z));
-  const radZ = Math.atan2(Math.sqrt(x*x + y*y), z);
+function checkGyroscopeReadings(readings: any, timeframe: number) {
+  const movementThreshold = 45; // adjust this as needed
+  let movementCount = 0;
   
-  // Convert the radians to degrees
-  const degX = radX * (180/Math.PI);
-  const degY = radY * (180/Math.PI);
-  const degZ = radZ * (180/Math.PI);
-  
-  // Check if any of the angles are greater than 50 degrees
-  if (Math.abs(degX) > 50 || Math.abs(degY) > 50 || Math.abs(degZ) > 50) {
-    return true;
-  } else {
-    return false;
+  // loop through the readings and check for movement
+  for (let i = 0; i < readings.length; i++) {
+    const reading = readings[i];
+    if (Math.abs(reading.x) > movementThreshold || 
+        Math.abs(reading.y) > movementThreshold || 
+        Math.abs(reading.z) > movementThreshold) {
+      movementCount++;
+    }
   }
+  
+  // calculate the movement rate and check if it exceeds the threshold
+  const movementRate = movementCount / readings.length;
+  const timeframeInSeconds = timeframe / 1000; // convert to seconds
+  const movementPerSecond = movementRate / timeframeInSeconds;
+  return movementPerSecond > 0.4; // adjust this as needed
 }
 
 function getPercentageTrueFalse(arr: any) {
@@ -44,8 +46,8 @@ const ComponentWithGyroscope = () => {
   window.addEventListener('deviceorientation', handleOrientation);
 
   React.useEffect(() => {
-    setDeflection(detectGreaterAngle(alpha, beta, gamma))
-    setPath((prev: any) => [...prev, detectGreaterAngle(alpha, beta, gamma)])
+    // setDeflection(checkGyroscopeReadings(path, 5000))
+    setPath((prev: any) => [...prev, {x: alpha, y: beta, z: gamma}])
   }, [alpha, beta, gamma])
 
   function handleOrientation(event: any) {
@@ -63,9 +65,8 @@ const ComponentWithGyroscope = () => {
       setInterval((path) => {
         setPath((path: any) => {
           console.log(path);
-          const percentages = getPercentageTrueFalse(path.slice(-500))
-          setPercentage(percentages.true)
-          if(percentages.true > 50){
+          const check = checkGyroscopeReadings(path, 5000)
+          if(check){
             setAirdrop(true)
           }
           return path.slice(-500)
