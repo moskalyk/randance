@@ -74,10 +74,10 @@ const ComponentWithGyroscope = () => {
           const check = checkGyroscopeReadings(path, TIME)
           if(check){
             setAirdrop(true)
-            document.getElementsByName('body')[0].style.background = 'cyan'
+            document.body.style.backgroundColor = 'cyan'
           }else {
             setAirdrop(false)
-            document.getElementsByName('body')[0].style.background = 'white'
+            document.body.style.backgroundColor = 'white'
           }
           return path.slice(-500)
         });
