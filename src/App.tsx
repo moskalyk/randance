@@ -33,14 +33,14 @@ function getPercentageTrueFalse(arr: any) {
 }
 
 const ComponentWithGyroscope = () => {
-  const [alpha, setAlpha] = React.useState(0)
-  const [beta, setBeta] = React.useState(0)
-  const [gamma, setGamma] = React.useState(0)
+  const [alpha, setAlpha] = React.useState(1)
+  const [beta, setBeta] = React.useState(1)
+  const [gamma, setGamma] = React.useState(1)
   const [init, setInit] = React.useState(false)
   const [deflection, setDeflection] = React.useState(false)
   const [path, setPath] = React.useState<any>([])
   const [airdrop, setAirdrop] = React.useState(false)
-
+  const [percentage, setPercentage] = React.useState(0)
   window.addEventListener('deviceorientation', handleOrientation);
 
   React.useEffect(() => {
@@ -59,13 +59,29 @@ const ComponentWithGyroscope = () => {
   }
 
   React.useEffect(() => {
-    setInterval(() => {
-      const percentages = getPercentageTrueFalse(path)
-      if(percentages.true > .50){
-        setAirdrop(true)
-      }
-    }, 20000)
-  })
+    if(!init){
+      setInterval((path) => {
+        setPath((path: any) => {
+          console.log(path);
+          const percentages = getPercentageTrueFalse(path.slice(-500))
+          setPercentage(percentages.true)
+          if(percentages.true > 50){
+            setAirdrop(true)
+          }
+          return path.slice(-500)
+        });
+
+      }, 5000, path)
+      setInit(true)
+    }
+
+    // for testing
+    setInterval(()=> {
+      setAlpha(alpha* (1+Math.random()))
+      setBeta(beta* (1+Math.random()))
+      setGamma(gamma * (1+Math.random()))
+    },300)
+  }, [path, airdrop])
 
   function click() {
     console.log(DeviceMotionEvent)
@@ -97,8 +113,10 @@ const ComponentWithGyroscope = () => {
       <li className='prompt'>Y: {beta}</li>
       <li className='prompt'>Z: {gamma}</li>
     </ul>
-    <p>present boogy: {deflection}</p>
-    <p>20s to drop: {airdrop}</p>
+    <p>present boogy: {deflection.toString()}</p>
+    <p>20s to drop: {airdrop.toString()}</p>
+    <p>percentage: {percentage}</p>
+    <p>{path.slice(path.length - 10).toString()}</p>
     </>
   )
 }
