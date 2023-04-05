@@ -6,7 +6,7 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
 }
 
 function checkGyroscopeReadings(readings: any, timeframe: number) {
-  const movementThreshold = 0.3; // adjust this as needed
+  const movementThreshold = 0.1; // adjust this as needed
   let movementCount = 0;
   let prevReading = null;
   
@@ -30,7 +30,7 @@ function checkGyroscopeReadings(readings: any, timeframe: number) {
   const movementRate = movementCount / (readings.length - 1);
   const timeframeInSeconds = timeframe / 1000; // convert to seconds
   const movementPerSecond = movementRate / timeframeInSeconds;
-  return movementPerSecond > 0.4; // adjust this as needed
+  return movementPerSecond > 0.3; // adjust this as needed
 }
 
 function getPercentageTrueFalse(arr: any) {
@@ -75,6 +75,9 @@ const ComponentWithGyroscope = () => {
           const check = checkGyroscopeReadings(path, 5000)
           if(check){
             setAirdrop(true)
+          }else {
+            alert('experiment failed')
+            setAirdrop(false)
           }
           return path.slice(-500)
         });
@@ -124,7 +127,7 @@ const ComponentWithGyroscope = () => {
     <p>present boogy: {deflection.toString()}</p>
     <p>20s to drop: {airdrop.toString()}</p>
     <p>percentage: {percentage}</p>
-    <p>{path.slice(path.length - 10).toString()}</p>
+    <p>{path.slice(-10).map((obs: any) => <p>{obs.x}</p>)}</p>
     </>
   )
 }
