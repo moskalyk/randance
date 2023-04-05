@@ -6,21 +6,28 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
 }
 
 function checkGyroscopeReadings(readings: any, timeframe: number) {
-  const movementThreshold = 45; // adjust this as needed
+  const movementThreshold = 0.3; // adjust this as needed
   let movementCount = 0;
+  let prevReading = null;
   
   // loop through the readings and check for movement
   for (let i = 0; i < readings.length; i++) {
     const reading = readings[i];
-    if (Math.abs(reading.x) > movementThreshold || 
-        Math.abs(reading.y) > movementThreshold || 
-        Math.abs(reading.z) > movementThreshold) {
-      movementCount++;
+    if (prevReading !== null) {
+      const relativeChangeX = Math.abs((reading.x - prevReading.x) / prevReading.x);
+      const relativeChangeY = Math.abs((reading.y - prevReading.y) / prevReading.y);
+      const relativeChangeZ = Math.abs((reading.z - prevReading.z) / prevReading.z);
+      if (relativeChangeX > movementThreshold || 
+          relativeChangeY > movementThreshold || 
+          relativeChangeZ > movementThreshold) {
+        movementCount++;
+      }
     }
+    prevReading = reading;
   }
   
   // calculate the movement rate and check if it exceeds the threshold
-  const movementRate = movementCount / readings.length;
+  const movementRate = movementCount / (readings.length - 1);
   const timeframeInSeconds = timeframe / 1000; // convert to seconds
   const movementPerSecond = movementRate / timeframeInSeconds;
   return movementPerSecond > 0.4; // adjust this as needed
