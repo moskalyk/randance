@@ -5,10 +5,10 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
   requestPermission?: () => Promise<'granted' | 'denied'>;
 }
 
-const TIME = 20000
+const TIME = 5000
 
 function checkGyroscopeReadings(readings: any, timeframe: number) {
-  const movementThreshold = 0.1; // adjust this as needed
+  const movementThreshold = 0.08; // adjust this as needed
   let movementCount = 0;
   let prevReading = null;
   
@@ -32,7 +32,7 @@ function checkGyroscopeReadings(readings: any, timeframe: number) {
   const movementRate = movementCount / (readings.length - 1);
   const timeframeInSeconds = timeframe / 1000; // convert to seconds
   const movementPerSecond = movementRate / timeframeInSeconds;
-  return movementPerSecond > 0.1; // adjust this as needed
+  return movementPerSecond > 0.08; // adjust this as needed
 }
 
 function getPercentageTrueFalse(arr: any) {
