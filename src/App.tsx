@@ -44,9 +44,9 @@ function getPercentageTrueFalse(arr: any) {
 }
 
 const ComponentWithGyroscope = () => {
-  const [alpha, setAlpha] = React.useState(1)
-  const [beta, setBeta] = React.useState(1)
-  const [gamma, setGamma] = React.useState(1)
+  const [alpha, setAlpha] = React.useState(0)
+  const [beta, setBeta] = React.useState(0)
+  const [gamma, setGamma] = React.useState(0)
   const [init, setInit] = React.useState(false)
   const [path, setPath] = React.useState<any>([])
   const [airdrop, setAirdrop] = React.useState(false)
@@ -108,6 +108,15 @@ const ComponentWithGyroscope = () => {
       window.addEventListener('devicemotion', handleOrientation);
     }
   }
+
+  React.useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      // console.log("Latitude is :", position.coords.latitude);
+      // console.log("Longitude is :", position.coords.longitude);
+
+      alert(`lat: ${position.coords.latitude}, lng: ${position.coords.longitude}`)
+    });
+  }, [airdrop])
 
   return (
     <>
