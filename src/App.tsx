@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import CircleMap from './CircleMap'
 
 interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
   requestPermission?: () => Promise<'granted' | 'denied'>;
@@ -135,6 +136,7 @@ function App() {
   return (
     <div className="App">
      <ComponentWithGyroscope/>
+     <CircleMap/>
     </div>
   );
 }
