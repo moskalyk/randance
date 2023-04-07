@@ -196,7 +196,9 @@ function Login(props) {
             console.error('Request to access the orientation was rejected');
           }
         })
-        .catch(console.error);
+        .catch(() => {
+          alert('error in device')
+        });
     } else {
       // Handle regular non iOS 13+ devices.
       window.addEventListener('devicemotion', handleOrientation);
