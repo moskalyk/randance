@@ -217,10 +217,15 @@ function Login(props) {
     })
     console.log(connectDetails)
     localStorage.setItem('proof', connectDetails.proof.proofString)
-    click()
+    
+    // click()
   }
   return (
+    <>
+    <button onClick={click}>approve</button>
     <img onClick={login} className="login" src={randance_login} />
+    </>
+
   )
 }
 
@@ -238,6 +243,7 @@ function App() {
       <p>quests to run to a random marker within 1km <br/><br/>and boogy with your phone</p>
       <br/>
       <ComponentWithGyroscope alpha={alpha} beta={beta} gamma={gamma}/>
+      <br/>
       <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/>
       <MyMap/>
     </div>
