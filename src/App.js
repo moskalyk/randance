@@ -206,6 +206,7 @@ function Login(props) {
   }
 
   const login = async () => {
+    click()
 
     const wallet = sequence.getWallet()
 
@@ -220,7 +221,6 @@ function Login(props) {
     console.log(connectDetails)
     localStorage.setItem('proof', connectDetails.proof.proofString)
     
-    // click()
   }
   return (
     <>
@@ -248,6 +248,7 @@ function App() {
       <br/>
       <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/>
       <MyMap/>
+      <p>v0.0.1</p>
     </div>
   );
 }
