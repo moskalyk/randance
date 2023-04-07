@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /fluence/node_modules
+/ts_client/node_modules
 /.pnp
 .pnp.js
 

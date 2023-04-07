@@ -37,6 +37,25 @@
   }
 }
 
-.prompt {
-  color: black
+.login {
+  cursor: pointer;
+  width: 200px;
+}
+
+.login:hover {
+  width: 180px;
+  margin: 10px;
+  transition: all 0.1s linear;
+  animation: cycle 5s linear infinite;
+}
+
+@keyframes cycle {
+  100% {transform: rotate(360deg);
+  }
+}
+
+.title {
+  font-family: 'Nabla';
+  font-size: 100px;
+  margin: 0px;
 }

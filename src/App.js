@@ -1,27 +1,9 @@
 import React, {useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { sequence } from '0xsequence'
 import randance_login from './randance_login.png'
-// import {
-//   MapContainer,
-//   TileLayer,
-//   useMap,
-//   Popup, Marker
-// } from 'https://cdn.esm.sh/react-leaflet'
-
-// import { MapContainer, TileLayer, Circle, Popup, Marker } from 'react-leaflet';
-
 import { Map, Marker, GeoJson, ZoomControl, GeoJsonFeature} from "pigeon-maps"
 import { stamenToner } from 'pigeon-maps/providers'
-
-// const center = [43.709600, -79.368790]
-
-// const geoJsonFeatureSample = {
-//   type: "Feature",
-//   geometry: { type: "Point", coordinates: center },
-//   properties: { prop0: "value0" },
-// };
 
 const TIME = 5000
 
@@ -135,11 +117,7 @@ export function MyMap() {
   
 
   React.useEffect(() => {
-    // alert('something')
     navigator.geolocation.getCurrentPosition(function(position) {
-      // console.log("Latitude is :", position.coords.latitude);
-      // console.log("Longitude is :", position.coords.longitude);
-      alert(position)
       setCenter([position.coords.latitude, position.coords.longitude])
     }, function() {
       console.log('error')
@@ -150,7 +128,6 @@ export function MyMap() {
       <> {center ? (
         <>
         <Map provider={stamenToner} height={300} defaultCenter={center} defaultZoom={15}>
-        {/* <Marker width={50} anchor={center} /> */}
         <Marker 
           width={50}
           anchor={getRandomSpot(center[0], center[1])} 
@@ -202,7 +179,6 @@ function Login(props) {
     props.setAlpha(alpha0)
     props.setBeta(beta0)
     props.setGamma(gamma0)
-    // Do stuff...
   }
 
   const click = () => {
