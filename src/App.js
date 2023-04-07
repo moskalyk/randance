@@ -60,9 +60,11 @@ const ComponentWithGyroscope = (props) => {
           if(check){
             setAirdrop(true)
             document.body.style.backgroundColor = 'cyan'
+            props.setColorBackground(true)
           }else {
             setAirdrop(false)
             document.body.style.backgroundColor = 'white'
+            props.setColorBackground(false)
           }
           return path.slice(-500)
         });
@@ -220,7 +222,6 @@ function Login(props) {
   }
   return (
     <>
-    <button onClick={click}>approve</button>
     <img onClick={login} className="login" src={randance_login} />
     </>
 
@@ -232,6 +233,7 @@ function App() {
   const [alpha, setAlpha] = React.useState(0)
   const [beta, setBeta] = React.useState(0)
   const [gamma, setGamma] = React.useState(0)
+  const [colorBackground, setColorBackground] = React.useState(false)
 
   sequence.initWallet('mumbai')
 
@@ -240,9 +242,9 @@ function App() {
       <p className='title'>randance</p>
       <p>quests to run to a random marker within 1km <br/><br/>and boogy with your phone</p>
       <br/>
-      <ComponentWithGyroscope alpha={alpha} beta={beta} gamma={gamma}/>
+      <ComponentWithGyroscope setColorBackground={setColorBackground} alpha={alpha} beta={beta} gamma={gamma}/>
       <br/>
-      <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/>
+      {!colorBackground ? <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/> : null}
       <MyMap/>
       <p>v0.0.1</p>
     </div>
