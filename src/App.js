@@ -181,24 +181,20 @@ function Login(props) {
     props.setGamma(gamma0)
   }
 
-  const click = () => {
+  const click = async () => {
     console.log(DeviceMotionEvent)
 
     const requestPermission = (DeviceOrientationEvent).requestPermission;
 
     if (typeof requestPermission  === 'function') {
       // Handle iOS 13+ devices.
-      requestPermission()
-        .then((state) => {
-          if (state === 'granted') {
-            window.addEventListener('devicemotion', handleOrientation);
-          } else {
-            console.error('Request to access the orientation was rejected');
-          }
-        })
-        .catch(() => {
-          alert('error in device')
-        });
+      const state = await requestPermission()
+      if (state === 'granted') {
+        window.addEventListener('devicemotion', handleOrientation);
+      } else {
+        console.error('Request to access the orientation was rejected');
+      }
+      return 
     } else {
       // Handle regular non iOS 13+ devices.
       window.addEventListener('devicemotion', handleOrientation);
@@ -206,7 +202,7 @@ function Login(props) {
   }
 
   const login = async () => {
-    click()
+    await click()
 
     const wallet = sequence.getWallet()
 
