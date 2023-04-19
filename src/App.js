@@ -12,6 +12,8 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
+const VERSION = 1
+
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
 Modal.setAppElement('#root');
@@ -107,19 +109,18 @@ const ComponentWithGyroscope = (props) => {
               const point2 = {longitude: props.quest[0], latitude: props.quest[1]}
 
               alert(JSON.stringify([point1, point2]))
-              
+
               if (within100Meters(point1, point2)) {
                 console.log('The points are within 100 meters.');
                 alert('success!')
               } else {
+                alert('The points are more than 100 meters apart.')
                 console.log('The points are more than 100 meters apart.');
               }
             }, function() {
               console.log('error')
+              alert('error')
             }, {timeout:10000});
-
-
-
             setAirdrop(true)
             document.body.style.backgroundColor = 'cyan'
             props.setColorBackground(true)
@@ -460,7 +461,7 @@ function App() {
       <br/>
       {!colorBackground ? <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/> : null}
       <RandMap quest={quest} setQuest={setQuest} isPlaying={playing} setPlaying={setPlaying} setWaiting={setWaiting} isLoggedIn={isLoggedIn}/>
-      <p>v0.1</p>
+      <p>v0.{VERSION}</p>
     </div>
   );
 }
