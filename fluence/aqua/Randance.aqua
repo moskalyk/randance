@@ -10,12 +10,12 @@ service Registry("Randance"):
 service Randance("Randance"):
     send(event: Event) -> bool
 
-func registerPeer(hub_peer_id: PeerId, peer_id: PeerId) -> bool:
+func registerPeer(hub_peer_id: PeerId) -> bool:
     on hub_peer_id:
-        res <- Registry.register(peer_id)
+        res <- Registry.register(%init_peer_id%)
     <- res
 
 func sendEvent(relay_id: PeerId, peer_id: PeerId, event: Event) -> bool:
-    on peer_id via relay_id:
+    on peer_id:
         res <- Randance.send(event)
     <- res

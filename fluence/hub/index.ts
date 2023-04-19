@@ -13,6 +13,7 @@ import { krasnodar } from '@fluencelabs/fluence-network-environment';
 
     registerRegistry({
         register: (peer_id: any) => {
+            console.log('registering -> ' + peer_id)
             map.set(peer_id, true)
             return true;
         }

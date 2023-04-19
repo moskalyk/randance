@@ -4,20 +4,25 @@
   "private": true,
   "dependencies": {
     "0xsequence": "^0.43.26",
+    "@fluencelabs/fluence": "^0.28.0",
+    "@fluencelabs/fluence-network-environment": "^1.0.14",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "ethers": "5.7.2",
+    "geolib": "^3.3.3",
     "leaflet": "^1.9.3",
     "pigeon-maps": "^0.21.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.0.0-beta.0",
+    "react-modal": "^3.16.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
+    "postinstall": "copy-marine public",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -28,9 +33,18 @@
       "react-app/jest"
     ]
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
