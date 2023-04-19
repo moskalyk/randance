@@ -106,6 +106,8 @@ const ComponentWithGyroscope = (props) => {
               // const currentIndex = await getCurrentIndex();
               const point2 = {longitude: props.quest[0], latitude: props.quest[1]}
 
+              alert(JSON.stringify([point1, point2]))
+              
               if (within100Meters(point1, point2)) {
                 console.log('The points are within 100 meters.');
                 alert('success!')
