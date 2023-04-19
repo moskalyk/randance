@@ -3,9 +3,11 @@
 # dependencies
 /node_modules
 /fluence/node_modules
+/relayer/node_modules
 /ts_client/node_modules
 /.pnp
 .pnp.js
+/relayer/.env
 
 # testing
 /coverage
