@@ -30,3 +30,5 @@ upon inequalities in temperature."
 - Mark Alizart, Cryptocommunism
 ```
 
+## tips
+- playing next to a lake can be tricky
