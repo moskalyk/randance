@@ -1,5 +1,5 @@
 # randance
-open a webapp to retrieve a quest to run to a nearby random spot within 1KM and gyrate your phone & body for 20 seconds. redeem gasless joy tokens.
+open a webapp to retrieve a quest to run to a nearby random spot within 1KM and gyrate your phone & body for 20 seconds. redeem: 1) gasless NFTs media artifacts, & 2)(maybe) gasless joy tokens 
 
 forget headphones, but bring music
 
