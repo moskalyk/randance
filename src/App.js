@@ -107,8 +107,9 @@ const ComponentWithGyroscope = (props) => {
               const point1 = {longitude: position.coords.latitude, latitude: position.coords.longitude}
               // const currentIndex = await getCurrentIndex();
               const point2 = {longitude: props.quest[0], latitude: props.quest[1]}
+              props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
 
-              alert(JSON.stringify([point1, point2]))
+              // alert(JSON.stringify([point1, point2]))
 
               if (within100Meters(point1, point2)) {
                 console.log('The points are within 100 meters.');
@@ -120,6 +121,7 @@ const ComponentWithGyroscope = (props) => {
             }, function() {
               console.log('error')
               alert('error')
+              props.setLog('error')
             }, {timeout:10000});
             setAirdrop(true)
             document.body.style.backgroundColor = 'cyan'
@@ -449,15 +451,18 @@ function App() {
   const [playing, setPlaying] = React.useState(false)
   const [waiting, setWaiting] = React.useState(false)
   const [quest, setQuest] = React.useState(null)
+  const [log, setLog] = React.useState('update')
+
   sequence.initWallet('mumbai')
 
   return (
     <div className="App">
       <p className='title'>randance</p>
       <p>quests to run to a random marker within 1km <br/><br/>and boogy with your phone {!isLoggedIn ? <><br/><br/><p>you must be logged in to play</p> </>: null} </p>
+      {log}
       <br/>
       { waiting ? <p>awaiting quest ...</p> : null}
-      { playing ? <ComponentWithGyroscope setColorBackground={setColorBackground} alpha={alpha} beta={beta} gamma={gamma}/> : null}
+      { playing ? <ComponentWithGyroscope setLog={setLog} setColorBackground={setColorBackground} alpha={alpha} beta={beta} gamma={gamma}/> : null}
       <br/>
       {!colorBackground ? <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/> : null}
       <RandMap quest={quest} setQuest={setQuest} isPlaying={playing} setPlaying={setPlaying} setWaiting={setWaiting} isLoggedIn={isLoggedIn}/>
