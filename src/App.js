@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 3
+const VERSION = 1
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -98,25 +98,7 @@ const ComponentWithGyroscope = (props) => {
   }, [props.alpha, props.beta, props.gamma])
 
   const successCallback = (position) => {
-    // setCenter([position.coords.latitude, position.coords.longitude])
-    const point1 = {longitude: localStorage.getItem('lat'), latitude: localStorage.getItem('lng')}
-    // const currentIndex = await getCurrentIndex();
-    const point2 = {longitude: quest[0], latitude: quest[1]}
-
-    // props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
-
-    // alert(JSON.stringify([point1, point2]))
-
-    if (within100Meters(point1, point2)) {
-      console.log('The points are within 100 meters.');
-      alert('success!')
-      log = 'success <100m'
-    } else {
-      alert('The points are more than 100 meters apart.')
-      console.log('The points are more than 100 meters apart.');
-      log = '>100m'
-    }
-
+  
   }
 
   const errorCallback = (error) => {
@@ -131,10 +113,24 @@ const ComponentWithGyroscope = (props) => {
           const check = checkGyroscopeReadings(path, TIME)
           if(check){
 
-            geo = navigator.geolocation.watchPosition(
-              successCallback,
-              errorCallback
-            );
+            // setCenter([position.coords.latitude, position.coords.longitude])
+            const point1 = {longitude: localStorage.getItem('lat'), latitude: localStorage.getItem('lng')}
+            // const currentIndex = await getCurrentIndex();
+            const point2 = {longitude: quest[0], latitude: quest[1]}
+
+            // props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
+
+            // alert(JSON.stringify([point1, point2]))
+
+            if (within100Meters(point1, point2)) {
+              console.log('The points are within 100 meters.');
+              alert('success!')
+              log = 'success <100m'
+            } else {
+              alert('The points are more than 100 meters apart.')
+              console.log('The points are more than 100 meters apart.');
+              log = '>100m'
+            }
 
             // navigator.geolocation.getCurrentPosition(async (position) => {
             // }, function() {
@@ -253,7 +249,7 @@ function RandMap(props) {
   const successCallback = (position) => {
     console.log(position);
     console.log(position)
-    
+
     localStorage.setItem('lat', position.coords.latitude)
     localStorage.setItem('lng', position.coords.longitude)
 
