@@ -86,6 +86,7 @@ function getPercentageTrueFalse(arr) {
 }
 
 let geo;
+let log;
 
 const ComponentWithGyroscope = (props) => {
   const [init, setInit] = React.useState(false)
@@ -109,15 +110,18 @@ const ComponentWithGyroscope = (props) => {
     if (within100Meters(point1, point2)) {
       console.log('The points are within 100 meters.');
       alert('success!')
+      log = 'success <100m'
     } else {
       alert('The points are more than 100 meters apart.')
       console.log('The points are more than 100 meters apart.');
+      log = '>100m'
     }
 
   }
 
   const errorCallback = (error) => {
     console.log(error);
+    log = 'error'
   };
 
   React.useEffect(() => {
@@ -472,7 +476,7 @@ function App() {
   const [playing, setPlaying] = React.useState(false)
   const [waiting, setWaiting] = React.useState(false)
   // const [quest, setQuest] = React.useState(null)
-  const [log, setLog] = React.useState('update')
+  // const [log, setLog] = React.useState('update')
 
   sequence.initWallet('mumbai')
 
@@ -483,7 +487,7 @@ function App() {
       {log}
       <br/>
       { waiting ? <p>awaiting quest ...</p> : null}
-      { playing ? <ComponentWithGyroscope setLog={setLog} setColorBackground={setColorBackground} alpha={alpha} beta={beta} gamma={gamma}/> : null}
+      { playing ? <ComponentWithGyroscope setColorBackground={setColorBackground} alpha={alpha} beta={beta} gamma={gamma}/> : null}
       <br/>
       {!colorBackground ? <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/> : null}
       <RandMap isPlaying={playing} setPlaying={setPlaying} setWaiting={setWaiting} isLoggedIn={isLoggedIn}/>
