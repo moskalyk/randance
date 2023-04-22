@@ -114,7 +114,7 @@ const ComponentWithGyroscope = (props) => {
           if(check){
 
             // setCenter([position.coords.latitude, position.coords.longitude])
-            const point1 = {longitude: localStorage.getItem('lat'), latitude: localStorage.getItem('lng')}
+            const point1 = {longitude: Number(localStorage.getItem('lat')), latitude: Number(localStorage.getItem('lng'))}
             // const currentIndex = await getCurrentIndex();
             const point2 = {longitude: quest[0], latitude: quest[1]}
 
