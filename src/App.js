@@ -85,6 +85,8 @@ function getPercentageTrueFalse(arr) {
   return { true: percentageTrue, false: percentageFalse };
 }
 
+let geo;
+
 const ComponentWithGyroscope = (props) => {
   const [init, setInit] = React.useState(false)
   const [path, setPath] = React.useState([])
@@ -94,6 +96,30 @@ const ComponentWithGyroscope = (props) => {
     setPath((prev) => [...prev, {x: props.alpha, y: props.beta, z: props.gamma}])
   }, [props.alpha, props.beta, props.gamma])
 
+  const successCallback = (position) => {
+    // setCenter([position.coords.latitude, position.coords.longitude])
+    const point1 = {longitude: position.coords.latitude, latitude: position.coords.longitude}
+    // const currentIndex = await getCurrentIndex();
+    const point2 = {longitude: quest[0], latitude: quest[1]}
+
+    // props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
+
+    // alert(JSON.stringify([point1, point2]))
+
+    if (within100Meters(point1, point2)) {
+      console.log('The points are within 100 meters.');
+      alert('success!')
+    } else {
+      alert('The points are more than 100 meters apart.')
+      console.log('The points are more than 100 meters apart.');
+    }
+
+  }
+
+  const errorCallback = (error) => {
+    console.log(error);
+  };
+
   React.useEffect(() => {
     if(!init){
       setInterval((path) => {
@@ -101,28 +127,17 @@ const ComponentWithGyroscope = (props) => {
           const check = checkGyroscopeReadings(path, TIME)
           if(check){
 
-            navigator.geolocation.getCurrentPosition(async (position) => {
+            geo = navigator.geolocation.watchPosition(
+              successCallback,
+              errorCallback
+            );
 
-              // setCenter([position.coords.latitude, position.coords.longitude])
-              const point1 = {longitude: position.coords.latitude, latitude: position.coords.longitude}
-              // const currentIndex = await getCurrentIndex();
-              const point2 = {longitude: props.quest[0], latitude: props.quest[1]}
-              props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
-
-              // alert(JSON.stringify([point1, point2]))
-
-              if (within100Meters(point1, point2)) {
-                console.log('The points are within 100 meters.');
-                alert('success!')
-              } else {
-                alert('The points are more than 100 meters apart.')
-                console.log('The points are more than 100 meters apart.');
-              }
-            }, function() {
-              console.log('error')
-              alert('error')
-              props.setLog('error')
-            }, {timeout:10000});
+            // navigator.geolocation.getCurrentPosition(async (position) => {
+            // }, function() {
+            //   console.log('error')
+            //   alert('error')
+            //   props.setLog('error')
+            // }, {timeout:10000});
             setAirdrop(true)
             document.body.style.backgroundColor = 'cyan'
             props.setColorBackground(true)
@@ -130,6 +145,7 @@ const ComponentWithGyroscope = (props) => {
             setAirdrop(false)
             document.body.style.backgroundColor = 'white'
             props.setColorBackground(false)
+            navigator.geolocation.clearWatch(geo);
           }
           return path.slice(-500)
         });
@@ -212,11 +228,12 @@ const listenToDrops = async (openModal, setQuest, setPlaying, setWaiting) => {
 let hack = false;
 let isLoggedIn = false
 
-const retrieveQuestFromStorage = async (setQuest) => {
+const retrieveQuestFromStorage = async () => {
   const tokenIndex = await getCurrentIndex();
 
   console.log(localStorage.getItem(tokenIndex))
-  setQuest(JSON.parse(localStorage.getItem(tokenIndex)))
+  // setQuest(JSON.parse(localStorage.getItem(tokenIndex)))
+  quest = JSON.parse(localStorage.getItem(tokenIndex))
 }
 
 function RandMap(props) {
@@ -261,7 +278,7 @@ function RandMap(props) {
   }, [])
 
   React.useEffect(() => {
-    if(isLoggedIn && props.isPlaying) retrieveQuestFromStorage(props.setQuest)
+    if(isLoggedIn && props.isPlaying) retrieveQuestFromStorage()
   })
 
   // const connectClient = async () => {
@@ -282,11 +299,12 @@ function RandMap(props) {
     // setTimeout(() => {
       // openModal()
     // }, 2000)
-    navigator.geolocation.getCurrentPosition(function(position) {
-      setCenter([position.coords.latitude, position.coords.longitude])
-    }, function() {
-      console.log('error')
-    }, {timeout:10000});
+    // navigator.geolocation.getCurrentPosition(function(position) {
+    //   console.log('setting center', position)
+    //   setCenter([position.coords.latitude, position.coords.longitude])
+    // }, function() {
+    //   console.log('error')
+    // }, {timeout:10000});
   }, [])
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -313,7 +331,8 @@ function RandMap(props) {
     const randomQuest = [center[0], center[1]]
     // const randomQuest = getRandomSpot(center[0], center[1])
 
-    props.setQuest(randomQuest)
+    quest = randomQuest
+    // props.setQuest(randomQuest)
     console.log(Number(tokenIndex))
     if(localStorage.getItem(Number(tokenIndex)) == null) {
       console.log('accepting')
@@ -442,6 +461,8 @@ function Login(props) {
   )
 }
 
+let quest;
+
 function App() {
 
   const [alpha, setAlpha] = React.useState(0)
@@ -450,7 +471,7 @@ function App() {
   const [colorBackground, setColorBackground] = React.useState(false)
   const [playing, setPlaying] = React.useState(false)
   const [waiting, setWaiting] = React.useState(false)
-  const [quest, setQuest] = React.useState(null)
+  // const [quest, setQuest] = React.useState(null)
   const [log, setLog] = React.useState('update')
 
   sequence.initWallet('mumbai')
@@ -465,7 +486,7 @@ function App() {
       { playing ? <ComponentWithGyroscope setLog={setLog} setColorBackground={setColorBackground} alpha={alpha} beta={beta} gamma={gamma}/> : null}
       <br/>
       {!colorBackground ? <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/> : null}
-      <RandMap quest={quest} setQuest={setQuest} isPlaying={playing} setPlaying={setPlaying} setWaiting={setWaiting} isLoggedIn={isLoggedIn}/>
+      <RandMap isPlaying={playing} setPlaying={setPlaying} setWaiting={setWaiting} isLoggedIn={isLoggedIn}/>
       <p>v0.{VERSION}</p>
     </div>
   );
