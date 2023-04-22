@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 4
+const VERSION = 3
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -99,7 +99,7 @@ const ComponentWithGyroscope = (props) => {
 
   const successCallback = (position) => {
     // setCenter([position.coords.latitude, position.coords.longitude])
-    const point1 = {longitude: center[0], latitude: center[1]}
+    const point1 = {longitude: localStorage.getItem('lat'), latitude: localStorage.getItem('lng')}
     // const currentIndex = await getCurrentIndex();
     const point2 = {longitude: quest[0], latitude: quest[1]}
 
@@ -122,7 +122,6 @@ const ComponentWithGyroscope = (props) => {
   const errorCallback = (error) => {
     console.log(error);
     log = 'error'
-    alert('error')
   };
 
   React.useEffect(() => {
@@ -232,7 +231,6 @@ const listenToDrops = async (openModal, setQuest, setPlaying, setWaiting) => {
 
 let hack = false;
 let isLoggedIn = false
-let center = []
 
 const retrieveQuestFromStorage = async () => {
   const tokenIndex = await getCurrentIndex();
@@ -245,7 +243,7 @@ const retrieveQuestFromStorage = async () => {
 function RandMap(props) {
 
   // const [quest, setQuest] = useState(null)
-  // const [center, setCenter] = useState(null)
+  const [center, setCenter] = useState(null)
   const [hue1, setHue1] = useState(50)
   const [hue2, setHue2] = useState(100)
   const color1 = `hsl(${hue1 % 360}deg 39% 70%)`
@@ -255,8 +253,11 @@ function RandMap(props) {
   const successCallback = (position) => {
     console.log(position);
     console.log(position)
-    // setCenter([position.coords.latitude, position.coords.longitude])
-    center = [position.coords.latitude, position.coords.longitude]
+    
+    localStorage.setItem('lat', position.coords.latitude)
+    localStorage.setItem('lng', position.coords.longitude)
+
+    setCenter([position.coords.latitude, position.coords.longitude])
   };
   
   const errorCallback = (error) => {
