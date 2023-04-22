@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 1
+const VERSION = 2
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
