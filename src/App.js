@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 2
+const VERSION = 1
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -123,7 +123,6 @@ const ComponentWithGyroscope = (props) => {
   };
 
   React.useEffect(() => {
-    retrieveQuestFromStorage()
 
     if(!init){
       setInterval((path) => {
@@ -499,7 +498,7 @@ function App() {
   // const [log, setLog] = React.useState('update')
 
   sequence.initWallet('mumbai')
-  localStorage.removeItem("0");
+  // localStorage.removeItem("0");
 
   return (
     <div className="App">
