@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 1
+const VERSION = 2
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -123,13 +123,13 @@ const ComponentWithGyroscope = (props) => {
   };
 
   React.useEffect(() => {
+    retrieveQuestFromStorage()
+
     if(!init){
       setInterval((path) => {
         setPath(async (path) => {
           const check = checkGyroscopeReadings(path, TIME)
           if(check){
-
-            await retrieveQuestFromStorage()
 
             // setCenter([position.coords.latitude, position.coords.longitude])
             const point1 = {longitude: Number(localStorage.getItem('lng')), latitude: Number(localStorage.getItem('lat'))}
