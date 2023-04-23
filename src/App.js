@@ -220,7 +220,7 @@ const listenToDrops = async (openModal, setQuest, setPlaying, setWaiting) => {
 
     console.log(currentBlock < activeTillBlock)
     console.log()
-    if(currentBlock < activeTillBlock && localStorage.getItem(tokenIndex) == null && isLoggedIn){
+    if(currentBlock < activeTillBlock && localStorage.getItem(tokenIndex+1) == null && isLoggedIn){
       console.log('ready')
       setPlaying(true)
       openModal()
