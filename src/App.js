@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 1
+const VERSION = 2
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -120,17 +120,17 @@ const ComponentWithGyroscope = (props) => {
 
             // props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
 
-            // alert(JSON.stringify([point1, point2]))
+            alert(JSON.stringify([point1, point2]))
 
-            if (within100Meters(point1, point2)) {
-              console.log('The points are within 100 meters.');
-              alert('success!')
-              // log = 'success <100m'
-            } else {
-              alert('The points are more than 100 meters apart.')
-              console.log('The points are more than 100 meters apart.');
-              // log = '>100m'
-            }
+            // if (within100Meters(point1, point2)) {
+            //   console.log('The points are within 100 meters.');
+            //   alert('success!')
+            //   // log = 'success <100m'
+            // } else {
+            //   alert('The points are more than 100 meters apart.')
+            //   console.log('The points are more than 100 meters apart.');
+            //   // log = '>100m'
+            // }
 
             // navigator.geolocation.getCurrentPosition(async (position) => {
             // }, function() {
