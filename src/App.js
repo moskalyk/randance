@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 2
+const VERSION = 1
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -125,18 +125,22 @@ const ComponentWithGyroscope = (props) => {
   React.useEffect(() => {
     if(!init){
       setInterval((path) => {
-        setPath((path) => {
+        setPath(async (path) => {
           const check = checkGyroscopeReadings(path, TIME)
           if(check){
 
+            await retrieveQuestFromStorage()
+
             // setCenter([position.coords.latitude, position.coords.longitude])
             const point1 = {longitude: Number(localStorage.getItem('lng')), latitude: Number(localStorage.getItem('lat'))}
+            
             // const currentIndex = await getCurrentIndex();
             const point2 = {longitude: quest[1], latitude: quest[0]}
 
+
             // props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
 
-            // alert(JSON.stringify([point1, point2]))
+            alert(JSON.stringify([point1, point2]))
 
             if (arePointsWithin100Meters(point1.latitude, point1.longitude, point2.latitude, point2.longitude)) {
             //   console.log('The points are within 100 meters.');
@@ -383,7 +387,7 @@ function RandMap(props) {
         <Map provider={stamenToner} height={300} defaultCenter={center} defaultZoom={15}>
         { props.quest ? <Marker 
           width={50}
-          anchor={props.quest} 
+          anchor={quest} 
           color={color2} 
           onClick={() => setHue2(hue2 + 20)} 
         /> : null}
