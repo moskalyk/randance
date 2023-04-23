@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 2
+const VERSION = 1
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -220,7 +220,7 @@ const listenToDrops = async (openModal, setQuest, setPlaying, setWaiting) => {
 
     console.log(currentBlock < activeTillBlock)
     console.log()
-    if(currentBlock < activeTillBlock && localStorage.getItem(tokenIndex+1) == null && isLoggedIn){
+    if(currentBlock < activeTillBlock && localStorage.getItem(tokenIndex) == null && isLoggedIn){
       console.log('ready')
       setPlaying(true)
       openModal()
@@ -499,6 +499,7 @@ function App() {
   // const [log, setLog] = React.useState('update')
 
   sequence.initWallet('mumbai')
+  localStorage.removeItem("0");
 
   return (
     <div className="App">
