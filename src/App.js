@@ -12,7 +12,7 @@ import { geolib } from 'geolib';
 
 const { abi } = require('./abi.js')
 
-const VERSION = 1
+const VERSION = 2
 
 // import { krasnodar } from '@fluencelabs/fluence-network-environment'
 
@@ -31,6 +31,22 @@ const customStyles = {
 
 const TIME = 5000
 // const HUB_PEER_ID = '12D3KooWHpNgjsutuhQN4Woe5wLrWVfCMdVQKaeJx5wcJr2n78ha'
+
+function arePointsWithin100Meters(lat1, lon1, lat2, lon2) {
+  const R = 6371e3; // Earth's radius in meters
+  const φ1 = lat1 * Math.PI / 180; // latitude 1 in radians
+  const φ2 = lat2 * Math.PI / 180; // latitude 2 in radians
+  const Δφ = (lat2 - lat1) * Math.PI / 180; // difference in latitude in radians
+  const Δλ = (lon2 - lon1) * Math.PI / 180; // difference in longitude in radians
+
+  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c; // distance between the two points in meters
+
+  return d <= 100;
+}
 
 const claimNFT = async () => {
 
@@ -120,9 +136,9 @@ const ComponentWithGyroscope = (props) => {
 
             // props.setLog(JSON.stringify({points: [point1, point2], '100': within100Meters(point1, point2)}))
 
-            alert(JSON.stringify([point1, point2]))
+            // alert(JSON.stringify([point1, point2]))
 
-            if (within100Meters(point1, point2)) {
+            if (arePointsWithin100Meters(point1.latitude, point1.longitude, point2.latitude, point2.longitude)) {
             //   console.log('The points are within 100 meters.');
               alert('success!')
             //   // log = 'success <100m'
@@ -491,7 +507,7 @@ function App() {
       <br/>
       {!colorBackground ? <Login setAlpha={setAlpha} setBeta={setBeta} setGamma={setGamma}/> : null}
       <RandMap isPlaying={playing} setPlaying={setPlaying} setWaiting={setWaiting} isLoggedIn={isLoggedIn}/>
-      <p>v0.{VERSION}</p>
+      <p>v0.0.{VERSION}</p>
     </div>
   );
 }
