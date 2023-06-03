@@ -32,3 +32,6 @@ upon inequalities in temperature."
 
 ## tips
 - playing next to a lake can be tricky
+
+## development update
+- need better geolocation hardware it seems
